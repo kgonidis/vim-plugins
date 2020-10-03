@@ -1,0 +1,31 @@
+[submodule "start/nerdtree"]
+	path = start/nerdtree
+	url = https://github.com/preservim/nerdtree
+[submodule "start/YouCompleteMe"]
+	path = start/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe
+[submodule "start/vim-fugitive"]
+	path = start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
+[submodule "start/vim-pydocstring"]
+	path = start/vim-pydocstring
+	url = https://github.com/heavenshell/vim-pydocstring
+[submodule "start/tagbar"]
+	path = start/tagbar
+	url = https://github.com/preservim/tagbar
+[submodule "start/vim-airline"]
+	path = start/vim-airline
+	url = https://github.com/vim-airline/vim-airline
+[submodule "start/vim-airline-themes"]
+	path = start/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes
+[submodule "start/coc-nvim"]
+	path = start/coc-nvim
+	url = https://github.com/neoclide/coc.nvim
+        branch = release
+[submodule "start/lh-vim-lib"]
+	path = start/lh-vim-lib
+	url = https://github.com/LucHermitte/lh-vim-lib
+[submodule "start/nerdtree-git-plugin"]
+	path = start/nerdtree-git-plugin
+	url = https://github.com/Xuyuanp/nerdtree-git-plugin.git
