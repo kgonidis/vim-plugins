@@ -1,9 +1,6 @@
 [submodule "start/nerdtree"]
 	path = start/nerdtree
 	url = https://github.com/preservim/nerdtree
-[submodule "start/YouCompleteMe"]
-	path = start/YouCompleteMe
-	url = https://github.com/Valloric/YouCompleteMe
 [submodule "start/vim-fugitive"]
 	path = start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
@@ -29,3 +26,9 @@
 [submodule "start/nerdtree-git-plugin"]
 	path = start/nerdtree-git-plugin
 	url = https://github.com/Xuyuanp/nerdtree-git-plugin.git
+[submodule "opt/vimide/start/vim-nerdtree-syntax-highlight"]
+	path = opt/vimide/start/vim-nerdtree-syntax-highlight
+	url = https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
+[submodule "start/ctrlp"]
+	path = start/ctrlp
+	url = https://github.com/kien/ctrlp.vim
