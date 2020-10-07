@@ -29,6 +29,12 @@
 [submodule "opt/vimide/start/vim-nerdtree-syntax-highlight"]
 	path = opt/vimide/start/vim-nerdtree-syntax-highlight
 	url = https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
+[submodule "start/vim-devicons"]
+	path = start/vim-devicons
+	url = https://github.com/ryanoasis/vim-devicons
+[submodule "ctrlp.vim"]
+	path = start/ctrlp
+	url = https://github.com/ctrlpvim/ctrlp.vim
 [submodule "start/ctrlp"]
 	path = start/ctrlp
-	url = https://github.com/kien/ctrlp.vim
+	url = https://github.com/ctrlpvim/ctrlp.vim
