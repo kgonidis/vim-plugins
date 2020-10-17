@@ -26,21 +26,12 @@
 [submodule "opt/nerdtree-git-plugin"]
 	path = opt/nerdtree-git-plugin
 	url = https://github.com/Xuyuanp/nerdtree-git-plugin.git
-[submodule "opt/vimide/opt/vim-nerdtree-syntax-highlight"]
-	path = opt/vimide/opt/vim-nerdtree-syntax-highlight
-	url = https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
 [submodule "opt/vim-devicons"]
 	path = opt/vim-devicons
 	url = https://github.com/ryanoasis/vim-devicons
-[submodule "opt/vim-dadbod"]
-	path = opt/vim-dadbod
-	url = https://github.com/tpope/vim-dadbod.git
 [submodule "opt/nerdcommenter"]
 	path = opt/nerdcommenter
 	url = https://github.com/preservim/nerdcommenter.git
-[submodule "opt/vim-instant-markdown"]
-	path = opt/vim-instant-markdown
-	url = https://github.com/suan/vim-instant-markdown
 [submodule "opt/vim-snippets"]
 	path = opt/vim-snippets
 	url = https://github.com/honza/vim-snippets
@@ -56,3 +47,9 @@
 [submodule "opt/fzf-devicon"]
 	path = opt/fzf-devicon
 	url = https://github.com/coreyja/fzf.devicon.vim
+[submodule "opt/vim-dadbod"]
+	path = opt/vim-dadbod
+	url = https://github.com/tpope/vim-dadbod.git
+[submodule "opt/vim-instant-markdown"]
+	path = opt/vim-instant-markdown
+	url = https://github.com/suan/vim-instant-markdown
