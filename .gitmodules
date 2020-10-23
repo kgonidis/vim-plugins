@@ -53,3 +53,15 @@
 [submodule "opt/vim-instant-markdown"]
 	path = opt/vim-instant-markdown
 	url = https://github.com/suan/vim-instant-markdown
+[submodule "opt/vim-which-key"]
+	path = opt/vim-which-key
+	url = https://github.com/liuchengxu/vim-which-key.git
+[submodule "opt/vim-nerdtree-syntax-highlight"]
+	path = opt/vim-nerdtree-syntax-highlight
+	url = https://github.com/tiagofumo/vim-nerdtree-syntax-highlight.git
+[submodule "opt/vim-lastplace"]
+	path = opt/vim-lastplace
+	url = https://github.com/farmergreg/vim-lastplace.git
+[submodule "opt/vim-gitgutter"]
+	path = opt/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter.git

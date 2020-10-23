@@ -107,7 +107,8 @@ let mapleader = ";"
 
 " ##ADD PACKAGES
 
-packadd nerdtree-git-plugin
+"packadd nerdtree-git-plugin
+packadd vim-gitgutter
 packadd vim-devicons
 packadd nerdtree
 packadd coc-nvim
@@ -125,6 +126,9 @@ packadd vim-fugitive
 packadd vim-instant-markdown
 packadd vim-pydocstring
 packadd vim-snippets
+packadd vim-which-key
+packadd vim-nerdtree-syntax-highlight
+packadd vim-lastplace
 
 " ##ADD PACKAGES END
 
@@ -260,6 +264,22 @@ let g:pydocstring_formatter = 'numpy'
 nnoremap <silent><leader>tb :TagbarOpenAutoClose<CR>
 let g:tagbar_position = 'topleft vertical'
 let g:tagbar_width = 50
+let g:tagbar_type_javascript = {
+      \ 'ctagstype': 'javascript',
+      \ 'kinds': [
+      \ 'A:arrays',
+      \ 'P:properties',
+      \ 'T:tags',
+      \ 'O:objects',
+      \ 'G:generator functions',
+      \ 'F:functions',
+      \ 'C:constructors/classes',
+      \ 'M:methods',
+      \ 'V:variables',
+      \ 'I:imports',
+      \ 'E:exports',
+      \ 'S:styled components'
+      \ ]}
 
 " ##Tagbar END
 
@@ -333,19 +353,19 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ 'Renamed'   :'➜',
                 \ 'Unmerged'  :'═',
                 \ 'Deleted'   :'✖',
-                \ 'Dirty'     :" ",
+                \ 'Dirty'     :"",
                 \ 'Ignored'   :'☒',
                 \ 'Clean'     :" ",
                 \ 'Unknown'   :'?',
                 \ }
 "let NERDTreeDirArrowExpandable = " "
-"let NERDTreeDirArrowExpandable = ""
+let NERDTreeDirArrowExpandable = ""
 "let NERDTreeDirArrowCollapsible = " "
-"let NERDTreeDirArrowCollapsible = ""
+let NERDTreeDirArrowCollapsible = ""
 let g:NERDTreeGitStatusUseNerdFonts = 1
 let g:NERDTreeGitStatusShowClean = 1
 let NERDTreeQuitOnOpen=1
-let NERDTreeNodeDelimiter = ""
+"let NERDTreeNodeDelimiter = ""
 let g:NERDTreeWinSize=60
 
 nnoremap <silent><leader>nt :NERDTreeToggle<CR>
@@ -354,106 +374,131 @@ nnoremap <silent><leader>nt :NERDTreeToggle<CR>
 
 
 " ##vim-devicons
-let g:sol = {
-    \"gui": {
-            \"base03": "#002b36",
-            \"base02": "#073642",
-            \"base01": "#586e75",
-            \"base00": "#657b83",
-            \"base0": "#839496",
-            \"base1": "#93a1a1",
-            \"base2": "#eee8d5",
-            \"base3": "#fdf6e3",
-            \"yellow": "#FFAF00",
-            \"orange": "#cb4b16",
-            \"red": "#dc322f",
-            \"magenta": "#d33682",
-            \"violet": "#6c71c4",
-            \"blue": "#268bd2",
-            \"cyan": "#2aa198",
-            \"green": "#719e07"
-    \},
-    \"cterm": {
-            \"base03": 8,
-            \"base02": 0,
-            \"base01": 10,
-            \"base00": 11,
-            \"base0": 12,
-            \"base1": 14,
-            \"base2": 7,
-            \"base3": 15,
-            \"yellow": 214,
-            \"orange": 9,
-            \"red": 1,
-            \"magenta": 5,
-            \"violet": 13,
-            \"blue": 4,
-            \"cyan": 6,
-            \"green": 2
-    \}
-\}
 
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:DevIconsEnableFoldersOpenClose = 1
-if exists("g:loaded_webdevicons")
-    call webdevicons#refresh()
-endif
-augroup devicons
-    autocmd!
-    autocmd FileType nerdtree setlocal nolist
-    autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\]" contained conceal containedin=ALL
-    autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\[" contained conceal containedin=ALL
-    autocmd FileType nerdtree setlocal conceallevel=3
-    autocmd FileType nerdtree setlocal concealcursor=nvic
-augroup END
-function! DeviconsColors(config)
-    let colors = keys(a:config)
-    augroup devicons_colors
-        autocmd!
-        for color in colors
-            if color == 'normal'
-                exec 'autocmd FileType fzf,ctrlp*,nerdtree,startify if &background == ''dark'' | '.
-                    \ 'highlight devicons_'.color.' guifg='.g:sol.gui.base01.' ctermfg='.g:sol.cterm.base01.' | '.
-                    \ 'else | '.
-                    \ 'highlight devicons_'.color.' guifg='.g:sol.gui.base1.' ctermfg='.g:sol.cterm.base1.' | '.
-                    \ 'endif'
-            elseif color == 'emphasize'
-                exec 'autocmd FileType fzf,ctrlp*,nerdtree,startify if &background == ''dark'' | '.
-                    \ 'highlight devicons_'.color.' guifg='.g:sol.gui.base1.' ctermfg='.g:sol.cterm.base1.' | '.
-                    \ 'else | '.
-                    \ 'highlight devicons_'.color.' guifg='.g:sol.gui.base01.' ctermfg='.g:sol.cterm.base01.' | '.
-                    \ 'endif'
-            else
-                exec 'autocmd FileType fzf,ctrlp*,nerdtree,startify highlight devicons_'.color.' guifg='.g:sol.gui[color].' ctermfg='.g:sol.cterm[color]
-            endif
-            exec 'autocmd FileType fzf,ctrlp*,nerdtree,startify syntax match devicons_'.color.' /\v'.join(a:config[color], '|').'/ containedin=ALL'
-        endfor
-    augroup END
+"let g:sol = {
+    "\"gui": {
+            "\"base03": "#002b36",
+            "\"base02": "#073642",
+            "\"base01": "#586e75",
+            "\"base00": "#657b83",
+            "\"base0": "#839496",
+            "\"base1": "#93a1a1",
+            "\"base2": "#eee8d5",
+            "\"base3": "#fdf6e3",
+            "\"yellow": "#FFAF00",
+            "\"orange": "#cb4b16",
+            "\"red": "#dc322f",
+            "\"magenta": "#d33682",
+            "\"violet": "#6c71c4",
+            "\"blue": "#268bd2",
+            "\"cyan": "#2aa198",
+            "\"green": "#719e07"
+    "\},
+    "\"cterm": {
+            "\"base03": 8,
+            "\"base02": 0,
+            "\"base01": 10,
+            "\"base00": 11,
+            "\"base0": 12,
+            "\"base1": 14,
+            "\"base2": 7,
+            "\"base3": 15,
+            "\"yellow": 214,
+            "\"orange": 9,
+            "\"red": 1,
+            "\"magenta": 5,
+            "\"violet": 13,
+            "\"blue": 4,
+            "\"cyan": 6,
+            "\"green": 2
+    "\}
+"\}
+
+"let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+"let g:DevIconsEnableFoldersOpenClose = 1
+""let g:DevIconsDefaultFolderOpenSymbol=''
+""let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol=''
+
+"if exists("g:loaded_webdevicons")
+    "call webdevicons#refresh()
+"endif
+
+"augroup devicons
+    "autocmd!
+    "autocmd FileType nerdtree setlocal nolist
+    "autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\]" contained conceal containedin=ALL
+    "autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\[" contained conceal containedin=ALL
+    "autocmd FileType nerdtree setlocal conceallevel=3
+    "autocmd FileType nerdtree setlocal concealcursor=nvic
+"augroup END
+
+"function! DeviconsColors(config)
+    "let colors = keys(a:config)
+    "augroup devicons_colors
+        "autocmd!
+        "for color in colors
+            "if color == 'normal'
+                "exec 'autocmd FileType fzf,ctrlp*,nerdtree,startify if &background == ''dark'' | '.
+                    "\ 'highlight devicons_'.color.' guifg='.g:sol.gui.base01.' ctermfg='.g:sol.cterm.base01.' | '.
+                    "\ 'else | '.
+                    "\ 'highlight devicons_'.color.' guifg='.g:sol.gui.base1.' ctermfg='.g:sol.cterm.base1.' | '.
+                    "\ 'endif'
+            "elseif color == 'emphasize'
+                "exec 'autocmd FileType fzf,ctrlp*,nerdtree,startify if &background == ''dark'' | '.
+                    "\ 'highlight devicons_'.color.' guifg='.g:sol.gui.base1.' ctermfg='.g:sol.cterm.base1.' | '.
+                    "\ 'else | '.
+                    "\ 'highlight devicons_'.color.' guifg='.g:sol.gui.base01.' ctermfg='.g:sol.cterm.base01.' | '.
+                    "\ 'endif'
+            "else
+                "exec 'autocmd FileType fzf,ctrlp*,nerdtree,startify highlight devicons_'.color.' guifg='.g:sol.gui[color].' ctermfg='.g:sol.cterm[color]
+            "endif
+            "exec 'autocmd FileType fzf,ctrlp*,nerdtree,startify syntax match devicons_'.color.' /\v'.join(a:config[color], '|').'/ containedin=ALL'
+        "endfor
+    "augroup END
+"endfunction
+
+"let g:devicons_colors = {
+    "\'normal': ['', ''],
+    "\'emphasize': ['', '', '', '', '', '', '', '', '', '', ''],
+    "\'yellow': ['', '', '', '', '', '', '✚'],
+    "\'orange': ['', '', '', 'λ', '', ''],
+    "\'red': ['', '', '', '', '', '', '', '', '', '✹', '➜', '═', '✖',''],
+    "\'magenta': [''],
+    "\'violet': ['', '', '', ''],
+    "\'blue': ['', '', '', '', '', '', '', '', '', '', '', '','','✭','☒'],
+    "\'cyan': ['', '', '', ''],
+    "\'green': ['', '', '', '', '✔︎']
+"\}
+"call DeviconsColors(g:devicons_colors)
+
+" ##vim-devicons end
+
+" ##vim-nerdtree-syntax-highlight
+let g:WebDevIconsDefaultFolderSymbolColor = "FFAF00"
+" ##vim-nerdtree-syntax-highlight END
+
+
+" ##fzf
+
+" ##fzf
+
+
+" ##vim-fugitive
+
+function! ToggleGStatus()
+    if buflisted(bufname('.git/index'))
+        bd .git/index
+    else
+        vertical topleft Gstatus | vertical resize 50
+    endif
 endfunction
+command GstatusToggle :call ToggleGStatus()
+nnoremap <leader>gt :GstatusToggle<CR>
 
-let g:devicons_colors = {
-    \'normal': ['', ''],
-    \'emphasize': ['', '', '', '', '', '', '', '', '', '', ''],
-    \'yellow': ['', '', '', '', '', '', '✚'],
-    \'orange': ['', '', '', 'λ', '', ''],
-    \'red': ['', '', '', '', '', '', '', '', '', '✹', '➜', '═', '✖',''],
-    \'magenta': [''],
-    \'violet': ['', '', '', ''],
-    \'blue': ['', '', '', '', '', '', '', '', '', '', '', '','','✭','☒'],
-    \'cyan': ['', '', '', ''],
-    \'green': ['', '', '', '', '✔︎']
-\}
-call DeviconsColors(g:devicons_colors)
-
-" ##vim-devicons END
+" ##vim-fugitive END
 
 
-" ##fzf
-
-" ##fzf
-
-
-" #Plugins END
+" #plugins end
 
 
 " #Functions
@@ -473,7 +518,9 @@ function ReadBuf()
     quit
     exe "bd!".bnr
     let ln = join(lines)
-    exe "DB postgresql://kiron:rtuser123@10.200.5.1:5432/nyct_main ". ln
+    let cn = "DB postgresql://". $PSQL_USER . ":" . $PSQL_PWD . "@" .
+        \$PSQL_HOST . ":" . $PSQL_PORT . "/nyct_main " . ln
+    exe cn
     call FindPsqlBuffer()
 endfunction
 
@@ -506,14 +553,40 @@ nnoremap <leader>sq :call Psql()<CR>
 
 " ##PSQL END
 
+" Quit Terminals
+function QuitTerminals()
+    for b in getbufinfo()
+        if getbufvar(b['bufnr'], '&buftype') == 'terminal'
+            exe 'bd! '.b['bufnr']
+        endif
+    endfor
+endfunction
 
-" #Functions
+
+" Remove Terminal from local buffer list
+function UnlistTerminal()
+    for b in getbufinfo()
+        if getbufvar(b['bufnr'], '&buftype') == 'terminal'
+            call setbufvar(b['bufnr'], '&buflisted', 0)
+        endif
+    endfor
+endfunction
+
+autocmd TerminalOpen * call UnlistTerminal()
+
+" Go to css tag
+function GoToCss()
+    setlocal iskeyword+=-
+    let w = expand('<cword>')
+    exe 'tag .'.w
+    setlocal iskeyword-=-
+endfunction
+nnoremap gc :call GoToCss()<CR>
+
+" #Functions END
 
 
 " #Autocommand
-
- "Remove Terminal from local buffer list
-"autocmd TerminalOpen * if bufwinnr('') > 0 | setlocal nobuflisted | endif
 
 " Automatically save and load folds
 "autocmd BufWinLeave *.* mkview
@@ -535,7 +608,9 @@ cabbrev th tab help
 " #Command END
 
 
-" #Other Keyboard Remappings
+" #Keyboard Remappings
+
+nnoremap <silent> <leader> :WhichKey '<leader>'<CR>
 
 " Map the <Space> key to toggle a selected fold opened/closed.
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
@@ -566,11 +641,10 @@ nnoremap <leader>h :split<CR>
 
 
 " Writing and Closing Windows
-nnoremap <expr> <leader>qq exists("g:vimide_loaded") ?
-    \':call vimide#quit()<CR>' : ':qa<CR>'
+nnoremap <leader>qq :call QuitTerminals() \| qa<CR>
 nnoremap <leader>qa :qa!<CR>
-nnoremap <leader>s :w<CR>
-nnoremap <leader>q :q<CR>
+nnoremap <leader>sa :w<CR>
+nnoremap <leader>qw :q<CR>
 nnoremap <leader>tc :tabc<CR>
 
 " New line the escape
@@ -585,9 +659,13 @@ nnoremap <leader>sw ysiw
 "Toggle relative number
 nnoremap <leader>rn :set rnu!<CR>
 
-"Yank to clipboard
+"Yank and paste clipboard
 nnoremap Y "+y
 nnoremap YY "+yy
+nnoremap P "+p
+
+"Polymer Serve website
+nnoremap <leader>po :terminal ++hidden polymer serve<CR>
 
 nnoremap <leader>ds :Pydocstring<CR>
 nnoremap <leader>vr :e ~/.vimrc<CR>
@@ -606,9 +684,9 @@ tmap jj <C-\><C-n>
 tmap <C-t>t <C-\><C-n>:VimideToggle botbar<CR>
 tmap <C-t><C-t> <C-\><C-n>:VimideToggle botbar<CR>
 
-" #Other Keyboard Remappings END
+" #Keyboard Remappings END
 
 
 " Load helptags
-":helptags ALL
+:helptags ALL
 
