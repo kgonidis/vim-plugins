@@ -43,8 +43,8 @@ set shortmess+=c
 " set textwidth=79
 set formatoptions=tcqrn1
 set expandtab
-set shiftwidth=4
-set softtabstop=4
+set shiftwidth=2
+set softtabstop=2
 set noshiftround
 
 " Display 5 lines above/below the cursor when scrolling with a mouse.
@@ -129,6 +129,7 @@ packadd vim-snippets
 packadd vim-which-key
 packadd vim-nerdtree-syntax-highlight
 packadd vim-lastplace
+packadd MatchTagAlways
 
 " ##ADD PACKAGES END
 
@@ -232,10 +233,16 @@ xmap <leader>x  <Plug>(coc-convert-snippet)
 
 let g:coc_snippet_next = '<tab>'
 
+nmap <leader>qf <Plug>(coc-fix-current)
+
 augroup pyint
     au!
     au FileType python call coc#config('python', {'pythonPath': '/usr/bin/python3'})
 augroup END
+
+nnoremap <leader>rr :CocCommand prettier.formatFile<CR>
+nnoremap gr :call CocActionAsync('rename')<CR>
+nnoremap ga :CocAction<CR>
 
 " ##COC-NVIM END
 
@@ -373,106 +380,6 @@ nnoremap <silent><leader>nt :NERDTreeToggle<CR>
 " ##NERDTree END
 
 
-" ##vim-devicons
-
-"let g:sol = {
-    "\"gui": {
-            "\"base03": "#002b36",
-            "\"base02": "#073642",
-            "\"base01": "#586e75",
-            "\"base00": "#657b83",
-            "\"base0": "#839496",
-            "\"base1": "#93a1a1",
-            "\"base2": "#eee8d5",
-            "\"base3": "#fdf6e3",
-            "\"yellow": "#FFAF00",
-            "\"orange": "#cb4b16",
-            "\"red": "#dc322f",
-            "\"magenta": "#d33682",
-            "\"violet": "#6c71c4",
-            "\"blue": "#268bd2",
-            "\"cyan": "#2aa198",
-            "\"green": "#719e07"
-    "\},
-    "\"cterm": {
-            "\"base03": 8,
-            "\"base02": 0,
-            "\"base01": 10,
-            "\"base00": 11,
-            "\"base0": 12,
-            "\"base1": 14,
-            "\"base2": 7,
-            "\"base3": 15,
-            "\"yellow": 214,
-            "\"orange": 9,
-            "\"red": 1,
-            "\"magenta": 5,
-            "\"violet": 13,
-            "\"blue": 4,
-            "\"cyan": 6,
-            "\"green": 2
-    "\}
-"\}
-
-"let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-"let g:DevIconsEnableFoldersOpenClose = 1
-""let g:DevIconsDefaultFolderOpenSymbol=''
-""let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol=''
-
-"if exists("g:loaded_webdevicons")
-    "call webdevicons#refresh()
-"endif
-
-"augroup devicons
-    "autocmd!
-    "autocmd FileType nerdtree setlocal nolist
-    "autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\]" contained conceal containedin=ALL
-    "autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\[" contained conceal containedin=ALL
-    "autocmd FileType nerdtree setlocal conceallevel=3
-    "autocmd FileType nerdtree setlocal concealcursor=nvic
-"augroup END
-
-"function! DeviconsColors(config)
-    "let colors = keys(a:config)
-    "augroup devicons_colors
-        "autocmd!
-        "for color in colors
-            "if color == 'normal'
-                "exec 'autocmd FileType fzf,ctrlp*,nerdtree,startify if &background == ''dark'' | '.
-                    "\ 'highlight devicons_'.color.' guifg='.g:sol.gui.base01.' ctermfg='.g:sol.cterm.base01.' | '.
-                    "\ 'else | '.
-                    "\ 'highlight devicons_'.color.' guifg='.g:sol.gui.base1.' ctermfg='.g:sol.cterm.base1.' | '.
-                    "\ 'endif'
-            "elseif color == 'emphasize'
-                "exec 'autocmd FileType fzf,ctrlp*,nerdtree,startify if &background == ''dark'' | '.
-                    "\ 'highlight devicons_'.color.' guifg='.g:sol.gui.base1.' ctermfg='.g:sol.cterm.base1.' | '.
-                    "\ 'else | '.
-                    "\ 'highlight devicons_'.color.' guifg='.g:sol.gui.base01.' ctermfg='.g:sol.cterm.base01.' | '.
-                    "\ 'endif'
-            "else
-                "exec 'autocmd FileType fzf,ctrlp*,nerdtree,startify highlight devicons_'.color.' guifg='.g:sol.gui[color].' ctermfg='.g:sol.cterm[color]
-            "endif
-            "exec 'autocmd FileType fzf,ctrlp*,nerdtree,startify syntax match devicons_'.color.' /\v'.join(a:config[color], '|').'/ containedin=ALL'
-        "endfor
-    "augroup END
-"endfunction
-
-"let g:devicons_colors = {
-    "\'normal': ['', ''],
-    "\'emphasize': ['', '', '', '', '', '', '', '', '', '', ''],
-    "\'yellow': ['', '', '', '', '', '', '✚'],
-    "\'orange': ['', '', '', 'λ', '', ''],
-    "\'red': ['', '', '', '', '', '', '', '', '', '✹', '➜', '═', '✖',''],
-    "\'magenta': [''],
-    "\'violet': ['', '', '', ''],
-    "\'blue': ['', '', '', '', '', '', '', '', '', '', '', '','','✭','☒'],
-    "\'cyan': ['', '', '', ''],
-    "\'green': ['', '', '', '', '✔︎']
-"\}
-"call DeviconsColors(g:devicons_colors)
-
-" ##vim-devicons end
-
 " ##vim-nerdtree-syntax-highlight
 let g:WebDevIconsDefaultFolderSymbolColor = "FFAF00"
 " ##vim-nerdtree-syntax-highlight END
@@ -496,6 +403,17 @@ command GstatusToggle :call ToggleGStatus()
 nnoremap <leader>gt :GstatusToggle<CR>
 
 " ##vim-fugitive END
+
+
+" ##MatchTagAlways
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \ 'xhtml' : 1,
+    \ 'xml' : 1,
+    \ 'jinja' : 1,
+    \ 'typescriptreact' : 1,
+    \}
+" END ##MatchTagAlways
 
 
 " #plugins end
@@ -592,6 +510,8 @@ nnoremap gc :call GoToCss()<CR>
 "autocmd BufWinLeave *.* mkview
 "autocmd BufWinEnter *.* silent loadview"
 
+autocmd FileType typescriptreact setlocal autoindent
+
 " #Autocommand END
 
 
@@ -616,6 +536,8 @@ nnoremap <silent> <leader> :WhichKey '<leader>'<CR>
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
+" Map <C-J> to line break in normal
+nnoremap <NL> i<CR><Esc>
 
 " Tab/S-Tab cycles buffers, leader number goes to buffer num
 autocmd VimEnter * nnoremap <Tab> :bn<CR>
@@ -638,6 +560,8 @@ nnoremap <leader>kk <C-w><Up>
 nnoremap <leader>ll <C-w><Right>
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>h :split<CR>
+nnoremap <leader><Tab> :tabn<CR>
+nnoremap <leader><S-Tab> :tabp<CR>
 
 
 " Writing and Closing Windows
@@ -646,6 +570,7 @@ nnoremap <leader>qa :qa!<CR>
 nnoremap <leader>sa :w<CR>
 nnoremap <leader>qw :q<CR>
 nnoremap <leader>tc :tabc<CR>
+nnoremap <leader>tn :tab new<CR>
 
 " New line the escape
 nnoremap O o<Esc>
@@ -671,6 +596,7 @@ nnoremap <leader>ds :Pydocstring<CR>
 nnoremap <leader>vr :e ~/.vimrc<CR>
 nnoremap <leader>so :source ~/.vimrc<CR>
 nnoremap <leader>gp :Gpush<CR>
+nnoremap <leader>tt :exe "botright terminal" \| resize 40<CR>
 
 " Keep highlight when shifting tabs
 vnoremap < <gv
@@ -681,8 +607,6 @@ vnoremap Y "+y
 
 "Escape in terminal
 tmap jj <C-\><C-n>
-tmap <C-t>t <C-\><C-n>:VimideToggle botbar<CR>
-tmap <C-t><C-t> <C-\><C-n>:VimideToggle botbar<CR>
 
 " #Keyboard Remappings END
 
