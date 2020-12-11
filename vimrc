@@ -16,6 +16,8 @@ syntax on
 " For plug-ins to load correctly.
 filetype plugin indent on
 
+
+
 " Turn off modelines
 set modelines=0
 
@@ -102,6 +104,12 @@ set mouse=a
 " Set leader key
 let mapleader = ";"
 
+" Set gui font
+
+if has("gui_running")
+  set guifont=DroidSansMono\ Nerd\ Font\ 12
+endif
+
 
 " #Plugins
 
@@ -130,6 +138,9 @@ packadd vim-which-key
 packadd vim-nerdtree-syntax-highlight
 packadd vim-lastplace
 packadd MatchTagAlways
+packadd vista
+packadd typescript-vim
+packadd vim-jsx-typescript
 
 " ##ADD PACKAGES END
 
@@ -268,7 +279,6 @@ let g:pydocstring_formatter = 'numpy'
 
 " ##Tagbar
 
-nnoremap <silent><leader>tb :TagbarOpenAutoClose<CR>
 let g:tagbar_position = 'topleft vertical'
 let g:tagbar_width = 50
 let g:tagbar_type_javascript = {
@@ -414,6 +424,13 @@ let g:mta_filetypes = {
     \ 'typescriptreact' : 1,
     \}
 " END ##MatchTagAlways
+
+" VISTA
+
+let g:vista_close_on_jump = 1
+nnoremap <silent><leader>tb :Vista coc<CR>
+
+" VISTA END
 
 
 " #plugins end
