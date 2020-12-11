@@ -68,3 +68,12 @@
 [submodule "opt/MatchTagAlways"]
 	path = opt/MatchTagAlways
 	url = https://github.com/Valloric/MatchTagAlways.git
+[submodule "opt/vista"]
+	path = opt/vista
+	url = https://github.com/liuchengxu/vista.vim.git
+[submodule "opt/vim-jsx-typescript"]
+	path = opt/vim-jsx-typescript
+	url = https://github.com/peitalin/vim-jsx-typescript.git
+[submodule "opt/typescript-vim"]
+	path = opt/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim.git
