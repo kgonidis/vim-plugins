@@ -77,3 +77,6 @@
 [submodule "opt/typescript-vim"]
 	path = opt/typescript-vim
 	url = https://github.com/leafgarland/typescript-vim.git
+[submodule "opt/omnisharp-vim"]
+	path = opt/omnisharp-vim
+	url = https://github.com/OmniSharp/omnisharp-vim.git
