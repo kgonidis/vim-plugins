@@ -141,6 +141,9 @@ packadd MatchTagAlways
 packadd vista
 packadd typescript-vim
 packadd vim-jsx-typescript
+packadd omnisharp-vim
+packadd vim-ipython-cell
+packadd vim-slime
 
 " ##ADD PACKAGES END
 
@@ -189,7 +192,7 @@ endif
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gf <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -425,12 +428,27 @@ let g:mta_filetypes = {
     \}
 " END ##MatchTagAlways
 
-" VISTA
+" ##VISTA
 
 let g:vista_close_on_jump = 1
 nnoremap <silent><leader>tb :Vista coc<CR>
 
-" VISTA END
+" ##VISTA END
+
+" ##OMNISHARP
+
+autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
+
+" ##OMNISHARP END
+
+" ## IPYTHON
+
+let g:slime_target = "tmux"
+let g:slime_default_config = {
+            \ 'socket_name': get(split($TMUX, ','), 0),
+            \ 'target_pane': '{bottom-left}' }
+let g:slime_dont_ask_default = 1
+" ##
 
 
 " #plugins end
@@ -624,6 +642,12 @@ vnoremap Y "+y
 
 "Escape in terminal
 tmap jj <C-\><C-n>
+
+"IPython
+nnoremap <C-e> :IPythonCellExecuteCell<CR>
+nnoremap <C-n> :IPythonCellNextCell<CR>
+nnoremap <C-p> :IPythonCellPrevCell<CR>
+nnoremap <C-l> :IPythonCellClear<CR>
 
 " #Keyboard Remappings END
 

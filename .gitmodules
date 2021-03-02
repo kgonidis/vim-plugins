@@ -80,3 +80,9 @@
 [submodule "opt/omnisharp-vim"]
 	path = opt/omnisharp-vim
 	url = https://github.com/OmniSharp/omnisharp-vim.git
+[submodule "opt/vim-ipython-cell"]
+	path = opt/vim-ipython-cell
+	url = https://github.com/hanschen/vim-ipython-cell.git
+[submodule "opt/vim-slime"]
+	path = opt/vim-slime
+	url = https://github.com/jpalardy/vim-slime.git
