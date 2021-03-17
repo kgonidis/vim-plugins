@@ -153,7 +153,22 @@ packadd vim-slime
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
       " \ pumvisible() ? coc#_select_confirm() :
-
+let g:coc_global_extensions = [
+      \ 'coc-clangd',
+      \ 'coc-cmake',
+      \ 'coc-css',
+      \ 'coc-db',
+      \ 'coc-html',
+      \ 'coc-json',
+      \ 'coc-lists',
+      \ 'coc-omnisharp',
+      \ 'coc-prettier',
+      \ 'coc-python',
+      \ 'coc-snippets',
+      \ 'coc-sql',
+      \ 'coc-tsserver',
+      \ 'coc-vimlsp',
+      \ ]
 
 inoremap <silent><expr> <TAB>
       "\ pumvisible() ? _select_confirm() :
@@ -450,8 +465,11 @@ let g:slime_default_config = {
 let g:slime_dont_ask_default = 1
 " ##
 
-
-" #plugins end
+" ## VIM-INSTANT_MARKDOWN
+"
+" ## VIM-INSTANT_MARKDOWN END
+let g:instant_markdown_logfile='/home/kiron/.instant_markdown.log'
+" #Plugins END
 
 
 " #Functions
@@ -502,6 +520,54 @@ function Psql()
     startinsert
 endfunction
 
+" Close other buffers
+function! BufOnly(buffer, bang)
+	if a:buffer == ''
+		" No buffer provided, use the current buffer.
+		let buffer = bufnr('%')
+	elseif (a:buffer + 0) > 0
+		" A buffer number was provided.
+		let buffer = bufnr(a:buffer + 0)
+	else
+		" A buffer name was provided.
+		let buffer = bufnr(a:buffer)
+	endif
+
+	if buffer == -1
+		echohl ErrorMsg
+		echomsg "No matching buffer for" a:buffer
+		echohl None
+		return
+	endif
+
+	let last_buffer = bufnr('$')
+
+	let delete_count = 0
+	let n = 1
+	while n <= last_buffer
+		if n != buffer && buflisted(n)
+			if a:bang == '' && getbufvar(n, '&modified')
+				echohl ErrorMsg
+				echomsg 'No write since last change for buffer'
+							\ n '(add ! to override)'
+				echohl None
+			else
+				silent exe 'bdel' . a:bang . ' ' . n
+				if ! buflisted(n)
+					let delete_count = delete_count+1
+				endif
+			endif
+		endif
+		let n = n+1
+	endwhile
+
+	if delete_count == 1
+		echomsg delete_count "buffer deleted"
+	elseif delete_count > 1
+		echomsg delete_count "buffers deleted"
+	endif
+
+endfunction
 nnoremap <leader>sq :call Psql()<CR>
 
 " ##PSQL END
@@ -560,6 +626,16 @@ command Delview call MyDeleteView()
 cabbrev delview <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'Delview' : 'delview')<CR>
 cabbrev th tab help
 
+" Close other buffers
+command! -nargs=? -complete=buffer -bang Bonly
+    \ :call BufOnly('<args>', '<bang>')
+command! -nargs=? -complete=buffer -bang BOnly
+    \ :call BufOnly('<args>', '<bang>')
+command! -nargs=? -complete=buffer -bang Bufonly
+    \ :call BufOnly('<args>', '<bang>')
+command! -nargs=? -complete=buffer -bang BufOnly
+    \ :call BufOnly('<args>', '<bang>')
+
 " #Command END
 
 
@@ -577,15 +653,7 @@ nnoremap <NL> i<CR><Esc>
 " Tab/S-Tab cycles buffers, leader number goes to buffer num
 autocmd VimEnter * nnoremap <Tab> :bn<CR>
 nnoremap <S-Tab> :bp<CR>
-nnoremap <leader>1 :call OpenBuffer(1)<CR>
-nnoremap <leader>2 :call OpenBuffer(2)<CR>
-nnoremap <leader>3 :call OpenBuffer(3)<CR>
-nnoremap <leader>4 :call OpenBuffer(4)<CR>
-nnoremap <leader>5 :call OpenBuffer(5)<CR>
-nnoremap <leader>6 :call OpenBuffer(6)<CR>
-nnoremap <leader>7 :call OpenBuffer(7)<CR>
-nnoremap <leader>8 :call OpenBuffer(8)<CR>
-nnoremap <leader>9 :call OpenBuffer(9)<CR>
+nnoremap <leader>co :BufOnly<CR>
 
 " Window navigation
 imap jj <Esc>
@@ -654,4 +722,5 @@ nnoremap <C-l> :IPythonCellClear<CR>
 
 " Load helptags
 :helptags ALL
+
 
