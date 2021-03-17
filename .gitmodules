@@ -86,6 +86,6 @@
 [submodule "opt/vim-slime"]
 	path = opt/vim-slime
 	url = https://github.com/jpalardy/vim-slime.git
-[submodule "vimspector"]
-	path = vimspector
+[submodule "opt/vimspector"]
+	path = opt/vimspector
 	url = https://github.com/puremourning/vimspector.git
